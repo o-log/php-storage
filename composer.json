@@ -1,0 +1,11 @@
+{
+	"name": "o-log/php-storage",
+	"require" : {
+		"o-log/php-lib" : "1.*"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"OLOG" : ""
+		}
+	}
+}
