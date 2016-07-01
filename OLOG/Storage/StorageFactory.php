@@ -7,6 +7,11 @@ use OLOG\ConfWrapper;
 
 class StorageFactory
 {
+    /**
+     * @param $storage_name
+     * @return LocalStorage
+     * @throws \Exception
+     */
     public static function getStorageObjByName($storage_name)
     {
         $storages_arr = ConfWrapper::getRequiredValue(StorageConfigKeys::ROOT . '.' . StorageConfigKeys::STORAGES_ARR);
@@ -24,7 +29,10 @@ class StorageFactory
         
         return $storage_obj;
     }
-    
+
+    /**
+     * @return array
+     */
     public static function getStorageNamesInConfigArr()
     {
         $storages_arr = ConfWrapper::getRequiredValue(StorageConfigKeys::ROOT . '.' . StorageConfigKeys::STORAGES_ARR);
