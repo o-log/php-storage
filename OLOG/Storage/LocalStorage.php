@@ -7,11 +7,9 @@ namespace OLOG\Storage;
 class LocalStorage
 {
     protected $root_path;
-    protected $name;
 
-    public function __construct($name, $root_path)
+    public function __construct($root_path)
     {
-        $this->setName($name);
         $this->setRootPath($root_path);
     }
 
@@ -29,22 +27,6 @@ class LocalStorage
     public function setRootPath($root_path)
     {
         $this->root_path = $root_path;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
     }
 
     public function copyToStorage($source_path_in_file_system, $destination_path_in_storage)
