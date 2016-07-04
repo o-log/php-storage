@@ -2,7 +2,6 @@
 
 namespace OLOG\Storage;
 
-use OLOG\Assert;
 use OLOG\ConfWrapper;
 
 class StorageFactory
@@ -16,16 +15,7 @@ class StorageFactory
     {
         $storages_arr = ConfWrapper::getRequiredValue(StorageConfigKeys::ROOT . '.' . StorageConfigKeys::STORAGES_ARR);
         
-        $storage_config_arr = ConfWrapper::getRequiredSubvalue($storages_arr, $storage_name);
-        
-        $storage_type = ConfWrapper::getRequiredSubvalue($storage_config_arr, StorageConfigKeys::STORAGE_TYPE);
-        Assert::assert($storage_type == StorageConfigKeys::STORAGE_TYPE_LOCAL, 'unsupported storage type');
-        
-        $storage_root_path = ConfWrapper::getRequiredSubvalue($storage_config_arr, StorageConfigKeys::STORAGE_ROOT_PATH);
-        
-        $storage_obj = new LocalStorage($storage_name);
-        $storage_obj->setName($storage_name);
-        $storage_obj->setRootPath($storage_root_path);
+        $storage_obj = ConfWrapper::getRequiredSubvalue($storages_arr, $storage_name);
         
         return $storage_obj;
     }

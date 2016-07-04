@@ -9,6 +9,12 @@ class LocalStorage
     protected $root_path;
     protected $name;
 
+    public function __construct($name, $root_path)
+    {
+        $this->setName($name);
+        $this->setRootPath($root_path);
+    }
+
     /**
      * @return string
      */
