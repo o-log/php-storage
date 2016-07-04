@@ -88,7 +88,7 @@ class LocalStorage
         throw new \Exception('copy error: ' . $error_arr['message']);
     }
 
-    public function copyFromStorageToAnotherStorage($source_path_in_storage, $destination_storage_name, $destination_path_in_storage)
+    public function copyFromStorageToStorage($source_path_in_storage, $destination_storage_name, $destination_path_in_storage)
     {
         $source_full_path_in_file_system = $this->getRootPath() . $source_path_in_storage;
         \OLOG\Assert::assert(file_exists($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' not found');
