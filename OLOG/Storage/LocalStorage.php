@@ -87,4 +87,16 @@ class LocalStorage
         $error_arr = error_get_last();
         throw new \Exception('copy error: ' . $error_arr['message']);
     }
+
+    public function copyFromStorageToAnotherStorage($source_path_in_storage, $destination_storage_name, $destination_path_in_storage)
+    {
+        $source_full_path_in_file_system = $this->getRootPath() . $source_path_in_storage;
+        \OLOG\Assert::assert(file_exists($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' not found');
+
+        \OLOG\Assert::assert(is_file($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' is not file');
+
+        $destination_storage_obj = StorageFactory::getStorageObjByName($destination_storage_name);
+
+        $destination_storage_obj->copyToStorage($source_full_path_in_file_system, $destination_path_in_storage);
+    }
 }
