@@ -104,10 +104,6 @@ class LocalStorage
     {
         $full_path_in_file_system = $this->getRootPath() . $path_in_storage;
 
-        \OLOG\Assert::assert(file_exists($full_path_in_file_system), 'file ' . $full_path_in_file_system . ' not found');
-
-        \OLOG\Assert::assert(is_file($full_path_in_file_system), 'file ' . $full_path_in_file_system . ' is not file');
-
         return $full_path_in_file_system;
     }
 }
