@@ -13,11 +13,15 @@ class StorageFactory
      */
     public static function getStorageObjByName($storage_name)
     {
+        /*
         $storages_arr = ConfWrapper::getRequiredValue(StorageConfigKeys::ROOT . '.' . StorageConfigKeys::STORAGES_ARR);
         
         $storage_obj = ConfWrapper::getRequiredSubvalue($storages_arr, $storage_name);
         
         return $storage_obj;
+        */
+
+        return StorageConfig::getStorageObjById($storage_name);
     }
 
     /**
@@ -25,7 +29,8 @@ class StorageFactory
      */
     public static function getStorageNamesInConfigArr()
     {
-        $storages_arr = ConfWrapper::getRequiredValue(StorageConfigKeys::ROOT . '.' . StorageConfigKeys::STORAGES_ARR);
+        //$storages_arr = ConfWrapper::getRequiredValue(StorageConfigKeys::ROOT . '.' . StorageConfigKeys::STORAGES_ARR);
+        $storages_arr = StorageConfig::getStoragesArr();
 
         $storage_names_arr = [];
         foreach (array_keys($storages_arr) as $storage_name) {
