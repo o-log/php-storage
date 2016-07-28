@@ -94,4 +94,10 @@ class LocalStorage
 
         return $full_path_in_file_system;
     }
+
+    public function deleteFileFromStorage($path_in_storage)
+    {
+        $full_path_in_file_system = self::getFullFilePathOrUrlInStorage($path_in_storage);
+        unlink($full_path_in_file_system);
+    }
 }
