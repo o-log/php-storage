@@ -90,7 +90,7 @@ class LocalStorage
 
     public function getFullFilePathOrUrlInStorage($path_in_storage)
     {
-        $full_path_in_file_system = $this->getRootPath() . $path_in_storage;
+        $full_path_in_file_system = \OLOG\FilePath::constructPath([$this->getRootPath(), $path_in_storage]);
 
         return $full_path_in_file_system;
     }
