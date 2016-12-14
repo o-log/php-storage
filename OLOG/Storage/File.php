@@ -19,7 +19,7 @@ class File implements
     use ActiveRecordTrait;
     use ProtectPropertiesTrait;
 
-    const DB_ID = 'db_phpstorage';
+    const DB_ID = StorageConstants::DB_NAME_PHPSTORAGE;
     const DB_TABLE_NAME = 'olog_storage_file';
 
     const _ID = 'id';
