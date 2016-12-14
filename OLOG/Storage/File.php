@@ -26,11 +26,13 @@ class File implements
     const _CREATED_AT_TS = 'created_at_ts';
     const _STORAGE_NAME = 'storage_name';
     const _FILE_PATH_IN_STORAGE = 'file_path_in_storage';
+    const _ORIGINAL_FILE_NAME = 'original_file_name';
 
     protected $id;
     protected $created_at_ts; // initialized by constructor
     protected $storage_name;
     protected $file_path_in_storage;
+    protected $original_file_name;
 
     public function __construct()
     {
@@ -108,6 +110,22 @@ class File implements
     public function setFilePathInStorage($file_path_in_storage)
     {
         $this->file_path_in_storage = $file_path_in_storage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalFileName()
+    {
+        return $this->original_file_name;
+    }
+
+    /**
+     * @param string $original_file_name
+     */
+    public function setOriginalFileName($original_file_name)
+    {
+        $this->original_file_name = $original_file_name;
     }
 
     public function afterDelete()

@@ -30,16 +30,17 @@ class FileUploaderAjaxAction implements
 
     protected static function uploadFile()
     {
-        $file_obj = \OLOG\POSTFileAccess::createObjByKey(self::FIELD_NAME_UPLOAD_FILE);
+        $uploaded_file_obj = \OLOG\POSTFileAccess::createObjByKey(self::FIELD_NAME_UPLOAD_FILE);
         $upload_storage_name = \OLOG\POSTAccess::getRequiredPostValue(self::FIELD_NAME_UPLOAD_STORAGE_NAME);
 
-        $uploaded_file_path_in_storage = self::generateNewUniqFilePath($file_obj->getExtension());
+        $uploaded_file_path_in_storage = self::generateNewUniqFilePath($uploaded_file_obj->getExtension());
         $upload_storage_obj = StorageFactory::getStorageObjByName($upload_storage_name);
-        $upload_storage_obj->copyToStorage($file_obj->getTempFilepath(), $uploaded_file_path_in_storage);
+        $upload_storage_obj->copyToStorage($uploaded_file_obj->getTempFilepath(), $uploaded_file_path_in_storage);
 
         $file_obj = new \OLOG\Storage\File();
         $file_obj->setStorageName($upload_storage_name);
         $file_obj->setFilePathInStorage($uploaded_file_path_in_storage);
+        $file_obj->setOriginalFileName($uploaded_file_obj->getOriginalFileName());
         $file_obj->save();
 
         return array('success' => true, 'file_id' => $file_obj->getId());
