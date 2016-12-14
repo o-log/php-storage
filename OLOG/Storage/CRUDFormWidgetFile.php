@@ -228,6 +228,7 @@ class CRUDFormWidgetFile implements InterfaceCRUDFormWidget
                     $('#<?= $choose_form_element_id ?>').modal('hide');
                     $('#<?= $select_element_id ?>_is_null').val('');
                     $('#<?= $select_element_id ?>').val(data.file_id);
+                    $('#<?= $select_element_id ?>').val('').trigger('change');
 
                 }).fail(function () {
                     $upload_storage_name_input.attr("disabled", false);
