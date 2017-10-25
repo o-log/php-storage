@@ -2,8 +2,6 @@
 
 namespace OLOG\Storage;
 
-use OLOG\ConfWrapper;
-
 class StorageFactory
 {
     /**

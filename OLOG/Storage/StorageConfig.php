@@ -2,8 +2,6 @@
 
 namespace OLOG\Storage;
 
-use OLOG\Assert;
-
 class StorageConfig
 {
     static protected $storages_arr = [];
@@ -20,7 +18,7 @@ class StorageConfig
 
     static public function getStorageObjById($storage_id)
     {
-        Assert::assert(array_key_exists($storage_id, self::$storages_arr), 'Storage "' . $storage_id . '" not configured');
+        assert(array_key_exists($storage_id, self::$storages_arr), 'Storage "' . $storage_id . '" not configured');
         return self::$storages_arr[$storage_id];
     }
 }

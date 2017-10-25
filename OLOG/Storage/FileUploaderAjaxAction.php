@@ -3,9 +3,14 @@
 
 namespace OLOG\Storage;
 
+use OLOG\ActionInterface;
+use OLOG\Auth\Auth;
+use OLOG\Form;
+use OLOG\POST;
+use OLOG\POSTFileAccess;
 
 class FileUploaderAjaxAction implements
-    \OLOG\InterfaceAction
+    ActionInterface
 {
     const OPERATION_CODE_UPLOAD_FILE = 'OPERATION_CODE_UPLOAD_FILE';
     const FIELD_NAME_UPLOAD_FILE = 'FIELD_NAME_UPLOAD_FILE';
@@ -18,10 +23,13 @@ class FileUploaderAjaxAction implements
 
     public function action()
     {
-        \OLOG\Exits::exit403If(!\OLOG\Auth\Operator::currentOperatorHasAnyOfPermissions([\OLOG\Storage\Permissions::PERMISSION_STORAGE_UPLOAD_FILES]));
+        /*
+        \OLOG\Exits::exit403If(!\OLOG\Auth\Auth::currentOperatorHasAnyOfPermissions([\OLOG\Storage\Permissions::PERMISSION_STORAGE_UPLOAD_FILES]));
+        */
+        Auth::check([Permissions::PERMISSION_STORAGE_UPLOAD_FILES]);
 
         $return_arr = array('success' => false, 'error_message' => 'Ошибка метода запроса');
-        \OLOG\Operations::matchOperation(self::OPERATION_CODE_UPLOAD_FILE, function () use (&$return_arr) {
+        Form::match(self::OPERATION_CODE_UPLOAD_FILE, function () use (&$return_arr) {
             $return_arr = self::uploadFile();
         });
 
@@ -30,8 +38,8 @@ class FileUploaderAjaxAction implements
 
     protected static function uploadFile()
     {
-        $uploaded_file_obj = \OLOG\POSTFileAccess::createObjByKey(self::FIELD_NAME_UPLOAD_FILE);
-        $upload_storage_name = \OLOG\POSTAccess::getRequiredPostValue(self::FIELD_NAME_UPLOAD_STORAGE_NAME);
+        $uploaded_file_obj = POSTFileAccess::createObjByKey(self::FIELD_NAME_UPLOAD_FILE);
+        $upload_storage_name = POST::required(self::FIELD_NAME_UPLOAD_STORAGE_NAME);
 
         $uploaded_file_path_in_storage = self::generateNewUniqFilePath($uploaded_file_obj->getExtension());
         $upload_storage_obj = StorageFactory::getStorageObjByName($upload_storage_name);

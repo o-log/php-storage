@@ -4,10 +4,12 @@
 namespace OLOG\Storage;
 
 
+use OLOG\Router;
+
 class StorageRouting
 {
     public static function register()
     {
-        \OLOG\Router::processAction(\OLOG\Storage\FileUploaderAjaxAction::class, 0);
+        Router::action(FileUploaderAjaxAction::class, 0);
     }
 }

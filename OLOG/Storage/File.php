@@ -1,25 +1,18 @@
 <?php
 namespace OLOG\Storage;
 
+use OLOG\DB\DB;
+use OLOG\Model\ActiveRecordInterface;
 use OLOG\Model\ActiveRecordTrait;
-use OLOG\Model\FactoryTrait;
-use OLOG\Model\InterfaceDelete;
-use OLOG\Model\InterfaceFactory;
-use OLOG\Model\InterfaceLoad;
-use OLOG\Model\InterfaceSave;
 use OLOG\Model\ProtectPropertiesTrait;
 
 class File implements
-    InterfaceFactory,
-    InterfaceLoad,
-    InterfaceSave,
-    InterfaceDelete
+    ActiveRecordInterface
 {
-    use FactoryTrait;
     use ActiveRecordTrait;
     use ProtectPropertiesTrait;
 
-    const DB_ID = StorageConstants::DB_NAME_PHPSTORAGE;
+    const DB_ID = StorageConstants::SPACE_PHPSTORAGE;
     const DB_TABLE_NAME = 'olog_storage_file';
 
     const _ID = 'id';
@@ -41,7 +34,7 @@ class File implements
 
     static public function getAllIdsArrByCreatedAtDesc($offset = 0, $page_size = 30)
     {
-        $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+        $ids_arr = DB::readColumn(
             self::DB_ID,
             'select ' . self::_ID . ' from ' . self::DB_TABLE_NAME . ' order by ' . self::_CREATED_AT_TS . ' desc limit ' . intval($page_size) . ' offset ' . intval($offset)
         );
@@ -136,7 +129,7 @@ class File implements
         $storage_name = $this->getStorageName();
 
         if ($file_path_in_storage && $storage_name) {
-            $storage_obj = \OLOG\Storage\StorageFactory::getStorageObjByName($storage_name);
+            $storage_obj = StorageFactory::getStorageObjByName($storage_name);
             $storage_obj->deleteFileFromStorage($file_path_in_storage);
         }
     }

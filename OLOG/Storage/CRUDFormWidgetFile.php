@@ -4,12 +4,12 @@
 namespace OLOG\Storage;
 
 use OLOG\BT\BT;
-use OLOG\CRUD\CRUDFieldsAccess;
-use OLOG\CRUD\InterfaceCRUDFormWidget;
+use OLOG\CRUD\CInternalFieldsAccess;
+use OLOG\CRUD\FWInterface;
 use OLOG\HTML;
-use OLOG\Sanitize;
+use OLOG\H;
 
-class CRUDFormWidgetFile implements InterfaceCRUDFormWidget
+class CRUDFormWidgetFile implements FWInterface
 {
     protected $field_name;
     protected $storages_arr;
@@ -79,7 +79,7 @@ class CRUDFormWidgetFile implements InterfaceCRUDFormWidget
     public function html($obj)
     {
         $field_name = $this->getFieldName();
-        $field_value = CRUDFieldsAccess::getObjectFieldValue($obj, $field_name);
+        $field_value = CInternalFieldsAccess::getObjectFieldValue($obj, $field_name);
 
         $is_null_value = '';
 
@@ -100,15 +100,15 @@ class CRUDFormWidgetFile implements InterfaceCRUDFormWidget
 
         if (true) {
             $html .= '<span class="input-group-btn">';
-            $html .= '<button type="button" class="btn btn-default" data-toggle="modal" data-target="#' . $choose_form_element_id . '"><span class="glyphicon glyphicon-upload"></span></button>';
+            $html .= '<button type="button" class="btn btn-default" data-toggle="modal" data-target="#' . $choose_form_element_id . '"><span class="fa fa-upload"></span></button>';
             $html .= '</span>';
         }
 
         $html .= '<span class="input-group-btn">';
-        $html .= '<button type="button" id="' . Sanitize::sanitizeAttrValue($select_element_id) . '_btn_is_null" class="btn btn-default" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span></button>';
+        $html .= '<button type="button" id="' . H::attr($select_element_id) . '_btn_is_null" class="btn btn-default" data-toggle="modal"><span class="fa fa-remove"></span></button>';
         $html .= '</span>';
-        $html .= '<input type="hidden" id="' . Sanitize::sanitizeAttrValue($select_element_id) . '_is_null" name="' . Sanitize::sanitizeAttrValue($field_name) . '___is_null" value="' . $is_null_value . '"/>';
-        $html .= '<input readonly ' . $is_required_str . ' type="input" id="' . Sanitize::sanitizeAttrValue($select_element_id) . '" name="' . Sanitize::sanitizeAttrValue($field_name) . '" class="form-control" value="' . $field_value . '"/>';
+        $html .= '<input type="hidden" id="' . H::attr($select_element_id) . '_is_null" name="' . H::attr($field_name) . '___is_null" value="' . $is_null_value . '"/>';
+        $html .= '<input readonly ' . $is_required_str . ' type="input" id="' . H::attr($select_element_id) . '" name="' . H::attr($field_name) . '" class="form-control" value="' . $field_value . '"/>';
         $html .= '</div>';
 
 
@@ -131,7 +131,7 @@ class CRUDFormWidgetFile implements InterfaceCRUDFormWidget
                         echo '<option></option>';
                     }
                     foreach ($this->getStoragesArr() as $storage_name => $storage_id) {
-                        echo '<option value="' . \OLOG\Sanitize::sanitizeAttrValue($storage_id) . '">' . \OLOG\Sanitize::sanitizeTagContent($storage_name) . '</option>';
+                        echo '<option value="' . H::attr($storage_id) . '">' . H::content($storage_name) . '</option>';
                     }
                 });
             });
@@ -187,7 +187,7 @@ class CRUDFormWidgetFile implements InterfaceCRUDFormWidget
                 var form_data = new FormData();
                 form_data.append("<?= \OLOG\Storage\FileUploaderAjaxAction::FIELD_NAME_UPLOAD_STORAGE_NAME ?>", $upload_storage_name_input.val());
                 form_data.append("<?= \OLOG\Storage\FileUploaderAjaxAction::FIELD_NAME_UPLOAD_FILE ?>", upload_file_name);
-                form_data.append("<?= \OLOG\Operations::FIELD_NAME_OPERATION_CODE?>", "<?= \OLOG\Storage\FileUploaderAjaxAction::OPERATION_CODE_UPLOAD_FILE ?>");
+                form_data.append("<?= \OLOG\Form::FIELD_NAME_OPERATION_CODE?>", "<?= \OLOG\Storage\FileUploaderAjaxAction::OPERATION_CODE_UPLOAD_FILE ?>");
 
                 var upload_errors = $(".alert", $upload_form);
                 upload_errors.fadeOut();
@@ -243,7 +243,9 @@ class CRUDFormWidgetFile implements InterfaceCRUDFormWidget
         <?php
         $upload_script = ob_get_clean();
 
-        $html .= BT::modal($choose_form_element_id, 'Закачать файл', $upload_form . $upload_script);
+        ob_start();
+        BT::modal($choose_form_element_id, 'Закачать файл', $upload_form . $upload_script);
+        $html .= ob_get_clean();
 
         return $html;
     }

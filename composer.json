@@ -1,9 +1,15 @@
 {
 	"name": "o-log/php-storage",
+	"minimum-stability": "beta",
 	"require" : {
-		"o-log/php-lib" : "1.*",
-		"o-log/php-crud": "4.*",
-		"o-log/php-auth": "2.*"
+		"o-log/php-crud": "7.*",
+		"o-log/php-auth": "4.*"
+	},
+	"autoload-dev" : {
+		"psr-0" : {
+			"Config" : "",
+			"StorageDemo" : ""
+		}
 	},
 	"autoload" : {
 		"psr-0" : {

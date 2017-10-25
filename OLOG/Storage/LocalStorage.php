@@ -32,7 +32,7 @@ class LocalStorage
     public function copyToStorage($source_path_in_file_system, $destination_path_in_storage)
     {
         $destination_full_path_in_file_system = $this->getFullFilePathOrUrlInStorage($destination_path_in_storage);
-        \OLOG\Assert::assert(!file_exists($destination_full_path_in_file_system), 'destination file ' . $destination_full_path_in_file_system . ' already exists!');
+        assert(!file_exists($destination_full_path_in_file_system), 'destination file ' . $destination_full_path_in_file_system . ' already exists!');
 
         $destination_directory_in_file_system = dirname($destination_full_path_in_file_system);
 
@@ -53,12 +53,12 @@ class LocalStorage
 
     public function copyFromStorage($source_path_in_storage, $destination_path_in_file_system)
     {
-        \OLOG\Assert::assert(!file_exists($destination_path_in_file_system), 'destination file ' . $destination_path_in_file_system . ' already exists!');
+        assert(!file_exists($destination_path_in_file_system), 'destination file ' . $destination_path_in_file_system . ' already exists!');
 
         $source_full_path_in_file_system = $this->getFullFilePathOrUrlInStorage($source_path_in_storage);
-        \OLOG\Assert::assert(file_exists($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' not found');
+        assert(file_exists($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' not found');
 
-        \OLOG\Assert::assert(is_file($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' is not file');
+        assert(is_file($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' is not file');
 
         $destination_directory_in_file_system = dirname($destination_path_in_file_system);
         if (!file_exists($destination_directory_in_file_system)) {
@@ -79,9 +79,9 @@ class LocalStorage
     public function copyFromStorageToStorage($source_path_in_storage, $destination_storage_name, $destination_path_in_storage)
     {
         $source_full_path_in_file_system = $this->getFullFilePathOrUrlInStorage($source_path_in_storage);
-        \OLOG\Assert::assert(file_exists($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' not found');
+        assert(file_exists($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' not found');
 
-        \OLOG\Assert::assert(is_file($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' is not file');
+        assert(is_file($source_full_path_in_file_system), 'source file ' . $source_full_path_in_file_system . ' is not file');
 
         $destination_storage_obj = StorageFactory::getStorageObjByName($destination_storage_name);
 
