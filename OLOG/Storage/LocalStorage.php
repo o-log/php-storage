@@ -29,6 +29,28 @@ class LocalStorage
         $this->root_path = $root_path;
     }
 
+    public function moveToStorage($source_path_in_file_system, $destination_path_in_storage)
+    {
+        $destination_full_path_in_file_system = $this->getFullFilePathOrUrlInStorage($destination_path_in_storage);
+        assert(!file_exists($destination_full_path_in_file_system), 'destination file ' . $destination_full_path_in_file_system . ' already exists!');
+
+        $destination_directory_in_file_system = dirname($destination_full_path_in_file_system);
+
+        if (!file_exists($destination_directory_in_file_system)) {
+            if (!mkdir($destination_directory_in_file_system, 0777, true)) {
+                $error_arr = error_get_last();
+                throw new \Exception('mkdir ' . $destination_directory_in_file_system . ' error: ' . $error_arr['message']);
+            }
+        }
+
+        if (rename($source_path_in_file_system, $destination_full_path_in_file_system)) {
+            return;
+        }
+
+        $error_arr = error_get_last();
+        throw new \Exception('move error: ' . $error_arr['message']);
+    }
+    
     public function copyToStorage($source_path_in_file_system, $destination_path_in_storage)
     {
         $destination_full_path_in_file_system = $this->getFullFilePathOrUrlInStorage($destination_path_in_storage);
